@@ -7,8 +7,14 @@ import 'package:messenger/domain/models/frase.dart';
 import 'package:messenger/presentation/controllers/dialog_controller.dart';
 import 'package:messenger/presentation/controllers/dialogs_controller.dart';
 
-class AddMessageField extends StatelessWidget {
-  AddMessageField({super.key});
+class AddMessageField extends StatefulWidget {
+  const AddMessageField({super.key});
+
+  @override
+  State<AddMessageField> createState() => _AddMessageFieldState();
+}
+
+class _AddMessageFieldState extends State<AddMessageField> {
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -72,6 +78,7 @@ class AddMessageField extends StatelessWidget {
                               time: (DateTime.now()).millisecondsSinceEpoch,
                             ),
                           );
+                      _controller.clear();
                     },
                   ),
                 ),

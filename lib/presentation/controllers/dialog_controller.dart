@@ -26,6 +26,17 @@ class DialogController extends StateNotifier<DialogModel?> {
     state = temp;
   }
 
+  void update(List<DialogModel> temp) {
+    if (state != null) {
+      for (var elem in temp) {
+        if (elem.companionId == state!.companionId) {
+          state = elem;
+          break;
+        }
+      }
+    }
+  }
+
   String addNewFrase(FraseModel frase) {
     List dialog = jsonDecode(state!.dialog);
     dialog.insert(0, {

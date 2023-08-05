@@ -118,7 +118,7 @@ class DialogInfo extends ConsumerWidget {
                 ),
             ],
           ),
-          if (temp != null) AddMessageField()
+          if (temp != null) const AddMessageField()
         ],
       ),
     );

@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:messenger/data/dialogs.dart';
 import 'package:messenger/domain/models/dialog.dart';
 import 'package:messenger/domain/models/frase.dart';
 import 'package:messenger/presentation/controllers/dialog_controller.dart';
+
+var _rng = Random();
 
 class DialogsController extends StateNotifier<List<DialogModel>> {
   DialogsController() : super(dialogs);
@@ -36,6 +41,37 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
     }
 
     state = tempList;
+  }
+
+  List<DialogModel> addRandomFrase() {
+    List<DialogModel> temp = [];
+
+    for (var elem in state) {
+      List dialog = jsonDecode(elem.dialog);
+      if (elem.isOpen) {
+        dialog.insert(0, {
+          "isMe": _rng.nextBool(),
+          "text": randomFrase[_rng.nextInt(randomFrase.length - 1)],
+          "time": (DateTime.now()).millisecondsSinceEpoch,
+        });
+      }
+
+      String tempDialog = jsonEncode(dialog);
+      DialogModel tempElem = DialogModel(
+        isOpen: elem.isOpen,
+        companionName: elem.companionName,
+        dialog: tempDialog,
+        companionId: elem.companionId,
+        imageUrl: elem.imageUrl,
+        marks: elem.marks,
+        messangerUrl: elem.messangerUrl,
+        licence: elem.licence,
+      );
+
+      temp.add(tempElem);
+    }
+    state = temp;
+    return state;
   }
 
   void addNewFrase(String dialog, String companionId) {
@@ -92,6 +128,11 @@ class DialogsManager {
   void addNewFrase(String companionId, FraseModel frase) {
     String tempDialog = _dialogNotifier.addNewFrase(frase);
     _allDialogsNotifier.addNewFrase(tempDialog, companionId);
+  }
+
+  void addRandowFrase() {
+    List<DialogModel> temp = _allDialogsNotifier.addRandomFrase();
+    _dialogNotifier.update(temp);
   }
 }
 
