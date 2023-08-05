@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:messenger/domain/models/dialog.dart';
 import 'package:messenger/domain/models/mark.dart';
 
-List<DialogModel> dialogs = [
+final List<DialogModel> dialogs = [
   DialogModel(
     isOpen: false,
     companionName: 'Sajkdlcm',
     licence: 123,
     dialog:
         '[{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16}]',
-    companionId: 'gghgjaa',
+    companionId: 'ggdddhgjaa',
     imageUrl:
         'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    marks: const [],
+    marks: [],
     messangerUrl:
         'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
   ),
   DialogModel(
     licence: 12453,
-    isOpen: false,
+    isOpen: true,
     companionName: 'Sacxzcm',
     dialog:
         '[{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16}]',
-    companionId: 'gghgaaj',
+    companionId: 'gghgakkkkaj',
     imageUrl:
         'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
     marks: const [],
@@ -35,7 +35,7 @@ List<DialogModel> dialogs = [
     companionName: 'sacSam',
     dialog:
         '[{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16},{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16}]',
-    companionId: 'gghaaagj',
+    companionId: 'gghahhhhaagj',
     imageUrl:
         'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
     marks: const [
@@ -68,7 +68,7 @@ List<DialogModel> dialogs = [
     companionName: 'Scdscxczcam',
     dialog:
         '[{"isMe":false, "text":"aaa", "time":15}, {"isMe":true, "text":"aaa", "time":16}]',
-    companionId: 'gaaghgj',
+    companionId: 'gaajjghgj',
     imageUrl:
         'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
     marks: const [

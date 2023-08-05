@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:messenger/domain/models/dialog.dart';
+import 'package:messenger/domain/models/frase.dart';
 
 class DialogController extends StateNotifier<DialogModel?> {
   DialogController() : super(null);
@@ -8,7 +11,7 @@ class DialogController extends StateNotifier<DialogModel?> {
     state = dialog;
   }
 
-  void changeOpenStatus(List<DialogModel> dia) {
+  void changeOpenStatus() {
     DialogModel? temp = DialogModel(
       isOpen: !state!.isOpen,
       companionName: state!.companionName,
@@ -19,13 +22,31 @@ class DialogController extends StateNotifier<DialogModel?> {
       messangerUrl: state!.messangerUrl,
       licence: state!.licence,
     );
-    for (int i = 0; i < dia.length; i++) {
-      if (dia[i].companionId == state!.companionId) {
-        dia[i] = temp;
-      }
-    }
 
     state = temp;
+  }
+
+  String addNewFrase(FraseModel frase) {
+    List dialog = jsonDecode(state!.dialog);
+    dialog.insert(
+        0, {"isMe": frase.isMe, "text": frase.text, "time": frase.time,});
+
+    String tempDialog = jsonEncode(dialog);
+
+    DialogModel? temp = DialogModel(
+      isOpen: state!.isOpen,
+      companionName: state!.companionName,
+      dialog: tempDialog,
+      companionId: state!.companionId,
+      imageUrl: state!.imageUrl,
+      marks: state!.marks,
+      messangerUrl: state!.messangerUrl,
+      licence: state!.licence,
+    );
+
+    state = temp;
+
+    return tempDialog;
   }
 }
 

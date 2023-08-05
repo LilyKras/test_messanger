@@ -1,16 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:messenger/data/dialogs.dart';
 import 'package:messenger/domain/models/dialog.dart';
+import 'package:messenger/domain/models/frase.dart';
 import 'package:messenger/presentation/controllers/dialog_controller.dart';
 
 class DialogsController extends StateNotifier<List<DialogModel>> {
   DialogsController() : super(dialogs);
 
-  List<DialogModel> changeOpenStatus(String companionId) {
+  void changeOpenStatus(String companionId) {
     int tempIndex = 0;
     for (int i = 0; i < state.length; i++) {
       if (state[i].companionId == companionId) {
         tempIndex = i;
+        break;
       }
     }
 
@@ -34,12 +36,43 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
     }
 
     state = tempList;
-    return tempList;
+  }
+
+  void addNewFrase(String dialog, String companionId) {
+    int tempIndex = 0;
+    for (int i = 0; i < state.length; i++) {
+      if (state[i].companionId == companionId) {
+        tempIndex = i;
+        break;
+      }
+    }
+
+    DialogModel? temp = DialogModel(
+      isOpen: !state[tempIndex].isOpen,
+      companionName: state[tempIndex].companionName,
+      dialog: dialog,
+      companionId: state[tempIndex].companionId,
+      imageUrl: state[tempIndex].imageUrl,
+      marks: state[tempIndex].marks,
+      messangerUrl: state[tempIndex].messangerUrl,
+      licence: state[tempIndex].licence,
+    );
+
+    List<DialogModel> tempList = [];
+    for (int i = 0; i < tempIndex; i++) {
+      tempList.add(state[i]);
+    }
+    tempList.add(temp);
+    for (int i = tempIndex + 1; i < state.length; i++) {
+      tempList.add(state[i]);
+    }
+
+    state = tempList;
   }
 }
 
 final dialogsController = StateNotifierProvider((ref) {
-  return DialogController();
+  return DialogsController();
 });
 
 class DialogsManager {
@@ -52,17 +85,19 @@ class DialogsManager {
   );
 
   void changeOpenStatus(String companionId) {
-    List<DialogModel> temp = _allDialogsNotifier.changeOpenStatus(companionId);
-    _dialogNotifier.changeOpenStatus(temp);
+    _allDialogsNotifier.changeOpenStatus(companionId);
+    _dialogNotifier.changeOpenStatus();
+  }
+
+  void addNewFrase(String companionId, FraseModel frase) {
+    String tempDialog = _dialogNotifier.addNewFrase(frase);
+    _allDialogsNotifier.addNewFrase(tempDialog, companionId);
   }
 }
 
 final dialogsProv = Provider((ref) {
   return DialogsManager(
-    ref.watch(
-      dialogsController.notifier
-          as AlwaysAliveProviderListenable<DialogsController>,
-    ),
+    ref.watch(dialogsController.notifier),
     ref.watch(dialogController.notifier),
   );
 });

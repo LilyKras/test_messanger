@@ -11,47 +11,54 @@ class FraseElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment:
-          frase.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 5),
-          width: min(200, MediaQuery.of(context).size.width * 0.66 / 3),
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: frase.isMe
-                ? const Color.fromRGBO(180, 228, 255, 0.7)
-                : const Color.fromRGBO(0, 0, 0, 0.3),
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: const Radius.circular(20),
-              bottomLeft: frase.isMe
-                  ? const Radius.circular(20)
-                  : const Radius.circular(0),
-              bottomRight: !frase.isMe
-                  ? const Radius.circular(20)
-                  : const Radius.circular(0),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment:
+            frase.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            width: min(200, MediaQuery.of(context).size.width * 0.66 / 3),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: frase.isMe
+                  ? const Color.fromRGBO(180, 228, 255, 0.7)
+                  : const Color.fromRGBO(0, 0, 0, 0.3),
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+                bottomLeft: frase.isMe
+                    ? const Radius.circular(20)
+                    : const Radius.circular(0),
+                bottomRight: !frase.isMe
+                    ? const Radius.circular(20)
+                    : const Radius.circular(0),
+              ),
+            ),
+            child: Column(
+              children: [
+                Flex(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  direction: Axis.horizontal,
+                  children: [Text(frase.text)],
+                ),
+                Flex(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  direction: Axis.horizontal,
+                  children: [
+                    Text(
+                      DateFormat('HH:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(frase.time),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-          child: Column(
-            children: [
-              Text("${frase.text}sajdfnsjndslncldsnldnfndslkfdjsfkldsfj"),
-              Flex(
-                mainAxisAlignment: MainAxisAlignment.end,
-                direction: Axis.horizontal,
-                children: [
-                  Text(
-                    DateFormat('hh:mm').format(
-                      DateTime.fromMillisecondsSinceEpoch(frase.time),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

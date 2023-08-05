@@ -84,7 +84,9 @@ class DialogInfo extends ConsumerWidget {
                           Switch(
                             value: temp.isOpen,
                             onChanged: (_) {
-                              // ref.read(dialogsProv).changeOpenStatus(temp.companionId);
+                              ref
+                                  .read(dialogsProv)
+                                  .changeOpenStatus(temp.companionId);
                             },
                           ),
                           IconButton(

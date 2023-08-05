@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:messenger/data/dialogs.dart';
+import 'package:messenger/domain/models/dialog.dart';
+import 'package:messenger/presentation/controllers/dialogs_controller.dart';
 import 'package:messenger/presentation/screens/main_screen/dialogs_list/widgets/dialog_item.dart';
 
 class DialogList extends StatelessWidget {
@@ -15,7 +17,7 @@ class DialogList extends StatelessWidget {
         itemCount: dialogs.length,
         itemBuilder: (context, index) => Consumer(
           builder: (context, ref, child) => DialogItem(
-            dialog: dialogs[index],
+            dialog: (ref.watch(dialogsController) as List<DialogModel>)[index],
           ),
         ),
       ),
