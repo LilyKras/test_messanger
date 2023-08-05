@@ -65,11 +65,13 @@ class AddMessageField extends StatelessWidget {
                           ref.read(dialogController) as DialogModel?;
 
                       ref.read(dialogsProv).addNewFrase(
-                          temp!.companionId,
-                          FraseModel(
+                            temp!.companionId,
+                            FraseModel(
                               isMe: true,
                               text: value,
-                              time: (DateTime.now()).millisecondsSinceEpoch,),);
+                              time: (DateTime.now()).millisecondsSinceEpoch,
+                            ),
+                          );
                     },
                   ),
                 ),

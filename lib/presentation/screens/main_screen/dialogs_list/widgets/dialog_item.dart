@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:messenger/domain/models/dialog.dart';
@@ -15,7 +17,7 @@ class DialogItem extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) => GestureDetector(
         onTap: () {
-          ref.read(dialogController.notifier).openDialog(dialog);
+          ref.watch(dialogController.notifier).openDialog(dialog);
         },
         child: Container(
           color: !(dialog == ref.watch(dialogController))
@@ -32,8 +34,9 @@ class DialogItem extends StatelessWidget {
                 ),
                 PreviewDialog(
                   name: dialog.companionName,
-                  text:
-                      'Hibfdksbfjkwbdksbcfkbdshkbckdbsjkfbdjskbfhkdsbckjdsbckbdskfjbdsjkfbjdskfbjkdshfjkdshfkjsdhfkjsdhfjksdhfkjhsdjkfhdsjkfhsdjkfhdjshfjkdshfkjdshfkjdshfjkdshfjkhsdjkfhsdjkfhdjskhfjkdshfkjhsdjkfhjdskh',
+                  text: (jsonDecode(dialog.dialog).first)['isMe']
+                      ? 'me: ${(jsonDecode(dialog.dialog).first)['text']}'
+                      : (jsonDecode(dialog.dialog).first)['text'],
                   marks: dialog.marks,
                 )
               ],

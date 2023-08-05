@@ -28,8 +28,11 @@ class DialogController extends StateNotifier<DialogModel?> {
 
   String addNewFrase(FraseModel frase) {
     List dialog = jsonDecode(state!.dialog);
-    dialog.insert(
-        0, {"isMe": frase.isMe, "text": frase.text, "time": frase.time,});
+    dialog.insert(0, {
+      "isMe": frase.isMe,
+      "text": frase.text,
+      "time": frase.time,
+    });
 
     String tempDialog = jsonEncode(dialog);
 
