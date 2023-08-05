@@ -16,7 +16,7 @@ class PreviewDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 3 * 0.7,
+      width: MediaQuery.of(context).size.width / 3 * 0.6,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(

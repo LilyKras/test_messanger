@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:messenger/domain/models/dialog.dart';
 import 'package:messenger/presentation/controllers/dialog_controller.dart';
 import 'package:messenger/presentation/screens/main_screen/dialogs_list/widgets/prewiew_dialog.dart';
@@ -27,17 +28,46 @@ class DialogItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ProfileImage(
-                  imageUrl: dialog.imageUrl,
-                  messangerUrl: dialog.messangerUrl,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileImage(
+                      imageUrl: dialog.imageUrl,
+                      messangerUrl: dialog.messangerUrl,
+                    ),
+                    PreviewDialog(
+                      name: dialog.companionName,
+                      text: dialog.isOpen
+                          ? ((jsonDecode(dialog.dialog).first)['isMe']
+                              ? 'me: ${(jsonDecode(dialog.dialog).first)['text']}'
+                              : (jsonDecode(dialog.dialog).first)['text'])
+                          : "Диалог закрыт",
+                      marks: dialog.marks,
+                    ),
+                  ],
                 ),
-                PreviewDialog(
-                  name: dialog.companionName,
-                  text: (jsonDecode(dialog.dialog).first)['isMe']
-                      ? 'me: ${(jsonDecode(dialog.dialog).first)['text']}'
-                      : (jsonDecode(dialog.dialog).first)['text'],
-                  marks: dialog.marks,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3 * 0.1,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Flex(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      direction: Axis.horizontal,
+                      children: [
+                        Text(
+                          DateFormat("HH:mm").format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              (jsonDecode(dialog.dialog).first)['time'],
+                            ),
+                          ),
+                          style: const TextStyle(fontSize: 2),
+                        )
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),

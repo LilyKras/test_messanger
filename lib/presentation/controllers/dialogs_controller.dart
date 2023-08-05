@@ -48,7 +48,7 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
     }
 
     DialogModel? temp = DialogModel(
-      isOpen: !state[tempIndex].isOpen,
+      isOpen: state[tempIndex].isOpen,
       companionName: state[tempIndex].companionName,
       dialog: dialog,
       companionId: state[tempIndex].companionId,

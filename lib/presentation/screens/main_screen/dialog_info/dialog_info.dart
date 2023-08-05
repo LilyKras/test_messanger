@@ -82,6 +82,9 @@ class DialogInfo extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Switch(
+                            activeColor: Colors.white,
+                            activeTrackColor: Colors.green,
+                            inactiveTrackColor: Colors.white,
                             value: temp.isOpen,
                             onChanged: (_) {
                               ref
@@ -89,6 +92,21 @@ class DialogInfo extends ConsumerWidget {
                                   .changeOpenStatus(temp.companionId);
                             },
                           ),
+                          temp.isOpen
+                              ? const Text(
+                                  "Открыт",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 16,
+                                  ),
+                                )
+                              : const Text(
+                                  "Закрыт",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 16,
+                                  ),
+                                ),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.more_vert),
