@@ -3,7 +3,7 @@ import 'package:messenger/domain/models/dialog.dart';
 
 class CompanionInfo extends StatelessWidget {
   const CompanionInfo({super.key, required this.dialog});
-  final DialogModel? dialog;
+  final DialogModel dialog;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CompanionInfo extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                dialog!.imageUrl,
+                dialog.imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -41,11 +41,11 @@ class CompanionInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    dialog!.companionName,
+                    dialog.companionName,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    'Licence:${dialog!.licence}',
+                    'Licence:${dialog.licence}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

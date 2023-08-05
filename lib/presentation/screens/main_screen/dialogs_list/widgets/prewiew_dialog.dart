@@ -15,6 +15,7 @@ class PreviewDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int maxMarks = (MediaQuery.of(context).size.width / 3 * 0.6 ~/ 62);
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3 * 0.6,
       child: Padding(
@@ -28,7 +29,7 @@ class PreviewDialog extends StatelessWidget {
             ),
             if (marks.isNotEmpty)
               Row(
-                children: (marks.length <= 4)
+                children: (marks.length <= maxMarks)
                     ? [
                         ...(marks).map(
                           (e) => MarkItem(
@@ -38,18 +39,15 @@ class PreviewDialog extends StatelessWidget {
                         )
                       ]
                     : [
-                        MarkItem(
-                          color: marks[0].color,
-                          text: marks[0].text,
-                        ),
-                        MarkItem(
-                          color: marks[1].color,
-                          text: marks[1].text,
-                        ),
-                        MarkItem(
-                          color: marks[2].color,
-                          text: marks[2].text,
-                        ),
+                        ...[
+                          ...(marks.sublist(0, maxMarks - 1)).map(
+                            (e) => MarkItem(color: e.color, text: e.text),
+                          ),
+                          MarkItem(
+                            color: Colors.purple,
+                            text: 'еще ${marks.length - (maxMarks - 1)}',
+                          )
+                        ]
                       ],
               ),
             Text(

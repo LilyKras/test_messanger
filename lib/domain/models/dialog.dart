@@ -10,6 +10,7 @@ class DialogModel {
     required this.marks,
     required this.messangerUrl,
     required this.licence,
+    this.unread = 0,
   });
   final bool isOpen;
   final String companionName;
@@ -19,4 +20,5 @@ class DialogModel {
   final String messangerUrl;
   final List<Mark> marks;
   final int licence;
+  final int unread;
 }

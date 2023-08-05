@@ -11,13 +11,18 @@ class MarkItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Container(
+        constraints: const BoxConstraints(maxWidth: 50, minWidth: 50),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(52),
           color: color,
         ),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Text(text),
+          child: Text(
+            text,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

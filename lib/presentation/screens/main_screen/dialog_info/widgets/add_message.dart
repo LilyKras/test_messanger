@@ -67,11 +67,11 @@ class _AddMessageFieldState extends State<AddMessageField> {
                       //   },
                       // );
 
-                      DialogModel? temp =
-                          ref.read(dialogController) as DialogModel?;
+                      DialogModel temp =
+                          ref.read(dialogController) as DialogModel;
 
                       ref.read(dialogsProv).addNewFrase(
-                            temp!.companionId,
+                            temp.companionId,
                             FraseModel(
                               isMe: true,
                               text: value,

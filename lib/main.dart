@@ -44,6 +44,7 @@ class MyHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    // String? currCompanionId = (ref.watch(dialogController) as  DialogModel?) == null? null: (ref.watch(dialogController) as  DialogModel?)!.companionId;
     Timer.periodic(
       const Duration(seconds: 3),
       (Timer t) => ref.watch(dialogsProv).addRandowFrase(),

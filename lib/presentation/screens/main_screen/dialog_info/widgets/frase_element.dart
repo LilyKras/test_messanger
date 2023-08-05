@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:messenger/domain/models/frase.dart';
@@ -18,8 +16,10 @@ class FraseElement extends StatelessWidget {
             frase.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.66 * 0.4,
+            ),
             margin: const EdgeInsets.symmetric(horizontal: 5),
-            width: min(200, MediaQuery.of(context).size.width * 0.66 / 3),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: frase.isMe
@@ -41,7 +41,7 @@ class FraseElement extends StatelessWidget {
                 Flex(
                   mainAxisAlignment: MainAxisAlignment.start,
                   direction: Axis.horizontal,
-                  children: [Text(frase.text)],
+                  children: [Flexible(child: Text(frase.text))],
                 ),
                 Flex(
                   mainAxisAlignment: MainAxisAlignment.end,

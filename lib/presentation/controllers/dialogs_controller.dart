@@ -21,7 +21,7 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
       }
     }
 
-    DialogModel? temp = DialogModel(
+    DialogModel temp = DialogModel(
       isOpen: !state[tempIndex].isOpen,
       companionName: state[tempIndex].companionName,
       dialog: state[tempIndex].dialog,
@@ -43,17 +43,19 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
     state = tempList;
   }
 
-  List<DialogModel> addRandomFrase() {
+  List<DialogModel> addRandomFrase(String currCompanionId) {
     List<DialogModel> temp = [];
 
     for (var elem in state) {
       List dialog = jsonDecode(elem.dialog);
+      int unread = elem.unread;
       if (elem.isOpen) {
         dialog.insert(0, {
           "isMe": _rng.nextBool(),
           "text": randomFrase[_rng.nextInt(randomFrase.length - 1)],
           "time": (DateTime.now()).millisecondsSinceEpoch,
         });
+        if (!dialog[0]['isMe']) unread += 1;
       }
 
       String tempDialog = jsonEncode(dialog);
@@ -66,6 +68,7 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
         marks: elem.marks,
         messangerUrl: elem.messangerUrl,
         licence: elem.licence,
+        unread: (elem.companionId != currCompanionId) ? unread : 0,
       );
 
       temp.add(tempElem);
@@ -83,7 +86,7 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
       }
     }
 
-    DialogModel? temp = DialogModel(
+    DialogModel temp = DialogModel(
       isOpen: state[tempIndex].isOpen,
       companionName: state[tempIndex].companionName,
       dialog: dialog,
@@ -131,7 +134,9 @@ class DialogsManager {
   }
 
   void addRandowFrase() {
-    List<DialogModel> temp = _allDialogsNotifier.addRandomFrase();
+    String currCompanionId = _dialogNotifier.getCompanionId();
+    List<DialogModel> temp =
+        _allDialogsNotifier.addRandomFrase(currCompanionId);
     _dialogNotifier.update(temp);
   }
 }

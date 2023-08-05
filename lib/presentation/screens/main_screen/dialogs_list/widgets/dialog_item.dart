@@ -21,7 +21,8 @@ class DialogItem extends StatelessWidget {
           ref.watch(dialogController.notifier).openDialog(dialog);
         },
         child: Container(
-          color: !(dialog == ref.watch(dialogController))
+          color: !(dialog.companionId ==
+                  (ref.watch(dialogController) as DialogModel).companionId)
               ? Colors.white
               : const Color(0xFFE8ECF3),
           child: Padding(
@@ -52,18 +53,34 @@ class DialogItem extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 3 * 0.1,
                   child: FittedBox(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     child: Flex(
                       mainAxisAlignment: MainAxisAlignment.end,
                       direction: Axis.horizontal,
                       children: [
-                        Text(
-                          DateFormat("HH:mm").format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                              (jsonDecode(dialog.dialog).first)['time'],
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                DateFormat("HH:mm").format(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                    (jsonDecode(dialog.dialog).first)['time'],
+                                  ),
+                                ),
+                                style: const TextStyle(fontSize: 15),
+                              ),
                             ),
-                          ),
-                          style: const TextStyle(fontSize: 2),
+                            if (dialog.unread != 0)
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(232, 236, 243, 1),
+                                  borderRadius: BorderRadius.circular(23),
+                                ),
+                                padding: const EdgeInsets.all(3),
+                                child: Text(dialog.unread.toString()),
+                              )
+                          ],
                         )
                       ],
                     ),
