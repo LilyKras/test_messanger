@@ -1,26 +1,34 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:messenger/data/dialogs.dart';
 import 'package:messenger/domain/models/dialog.dart';
 import 'package:messenger/domain/models/frase.dart';
-import 'package:messenger/presentation/controllers/dialog_controller.dart';
+import 'package:messenger/presentation/bloc/dialog_bloc.dart';
 
 var _rng = Random();
 
-class DialogsController extends StateNotifier<List<DialogModel>> {
-  DialogsController() : super(dialogs);
+class DialogsBloc extends Bloc<DialogsEvent, List<DialogModel>> {
+  final DialogBloc dialogBloc;
 
-  void changeOpenStatus(String companionId) {
+  DialogsBloc(this.dialogBloc) : super(dialogs) {
+    on<ChangeOpenStatuses>(_onChangeOpenStatuses);
+    on<AddRandomFrases>(_onAddRandomFrases);
+    on<AddNewFrases>(_onAddNewFrases);
+  }
+
+  void _onChangeOpenStatuses(
+    ChangeOpenStatuses event,
+    Emitter<List<DialogModel>> emit,
+  ) {
     int tempIndex = 0;
     for (int i = 0; i < state.length; i++) {
-      if (state[i].companionId == companionId) {
+      if (state[i].companionId == dialogBloc.state.companionId) {
         tempIndex = i;
         break;
       }
     }
-
     DialogModel temp = DialogModel(
       isOpen: !state[tempIndex].isOpen,
       companionName: state[tempIndex].companionName,
@@ -31,6 +39,8 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
       messangerUrl: state[tempIndex].messangerUrl,
       licence: state[tempIndex].licence,
     );
+    dialogBloc.add(ChangeOpenStatus());
+
     List<DialogModel> tempList = [];
     for (int i = 0; i < tempIndex; i++) {
       tempList.add(state[i]);
@@ -40,10 +50,14 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
       tempList.add(state[i]);
     }
 
-    state = tempList;
+    emit(tempList);
   }
 
-  List<DialogModel> addRandomFrase(String currCompanionId) {
+  void _onAddRandomFrases(
+    AddRandomFrases event,
+    Emitter<List<DialogModel>> emit,
+  ) {
+    String currCompanionId = dialogBloc.state.companionId;
     List<DialogModel> temp = [];
 
     for (var elem in state) {
@@ -73,23 +87,35 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
 
       temp.add(tempElem);
     }
-    state = temp;
-    return state;
+
+    emit(temp);
+    dialogBloc.add(Update(state));
   }
 
-  void addNewFrase(String dialog, String companionId) {
+  void _onAddNewFrases(AddNewFrases event, Emitter<List<DialogModel>> emit) {
+    String currCompanionId = dialogBloc.state.companionId;
     int tempIndex = 0;
     for (int i = 0; i < state.length; i++) {
-      if (state[i].companionId == companionId) {
+      if (state[i].companionId == currCompanionId) {
         tempIndex = i;
         break;
       }
     }
 
+    List dialog = jsonDecode(state[tempIndex].dialog);
+    dialog.insert(0, {
+      "isMe": event.frase.isMe,
+      "text": event.frase.text,
+      "time": event.frase.time,
+    });
+    String tempDialog = jsonEncode(dialog);
+
+    dialogBloc.add(AddNewFrase(tempDialog));
+
     DialogModel temp = DialogModel(
       isOpen: state[tempIndex].isOpen,
       companionName: state[tempIndex].companionName,
-      dialog: dialog,
+      dialog: tempDialog,
       companionId: state[tempIndex].companionId,
       imageUrl: state[tempIndex].imageUrl,
       marks: state[tempIndex].marks,
@@ -106,44 +132,21 @@ class DialogsController extends StateNotifier<List<DialogModel>> {
       tempList.add(state[i]);
     }
 
-    state = tempList;
+    emit(tempList);
   }
 }
 
-final dialogsController = StateNotifierProvider((ref) {
-  return DialogsController();
-});
+abstract class DialogsEvent {}
 
-class DialogsManager {
-  final DialogsController _allDialogsNotifier;
-  final DialogController _dialogNotifier;
-
-  const DialogsManager(
-    this._allDialogsNotifier,
-    this._dialogNotifier,
-  );
-
-  void changeOpenStatus(String companionId) {
-    _allDialogsNotifier.changeOpenStatus(companionId);
-    _dialogNotifier.changeOpenStatus();
-  }
-
-  void addNewFrase(String companionId, FraseModel frase) {
-    String tempDialog = _dialogNotifier.addNewFrase(frase);
-    _allDialogsNotifier.addNewFrase(tempDialog, companionId);
-  }
-
-  void addRandowFrase() {
-    String currCompanionId = _dialogNotifier.getCompanionId();
-    List<DialogModel> temp =
-        _allDialogsNotifier.addRandomFrase(currCompanionId);
-    _dialogNotifier.update(temp);
-  }
+class ChangeOpenStatuses extends DialogsEvent {
+  ChangeOpenStatuses();
 }
 
-final dialogsProv = Provider((ref) {
-  return DialogsManager(
-    ref.watch(dialogsController.notifier),
-    ref.watch(dialogController.notifier),
-  );
-});
+class AddRandomFrases extends DialogsEvent {
+  AddRandomFrases();
+}
+
+class AddNewFrases extends DialogsEvent {
+  final FraseModel frase;
+  AddNewFrases(this.frase);
+}

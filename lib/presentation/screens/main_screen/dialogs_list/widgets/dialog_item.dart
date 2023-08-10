@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:messenger/domain/models/dialog.dart';
-import 'package:messenger/presentation/controllers/dialog_controller.dart';
+import 'package:messenger/presentation/bloc/dialog_bloc.dart';
 import 'package:messenger/presentation/screens/main_screen/dialogs_list/widgets/prewiew_dialog.dart';
 import 'package:messenger/presentation/screens/main_screen/dialogs_list/widgets/profile_image.dart';
 
@@ -15,14 +15,13 @@ class DialogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) => GestureDetector(
+    return BlocBuilder<DialogBloc, DialogModel>(
+      builder: (context, state) => GestureDetector(
         onTap: () {
-          ref.watch(dialogController.notifier).openDialog(dialog);
+          BlocProvider.of<DialogBloc>(context).add(OpenDialog(dialog));
         },
         child: Container(
-          color: !(dialog.companionId ==
-                  (ref.watch(dialogController) as DialogModel).companionId)
+          color: !(dialog.companionId == state.companionId)
               ? Colors.white
               : const Color(0xFFE8ECF3),
           child: Padding(
